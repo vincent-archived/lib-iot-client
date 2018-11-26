@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include "serialport.h"
 
-int iot_sp_termios_init(struct termios *term)
+enum sp_return iot_sp_termios_init(struct termios *term)
 {
     term->c_cflag |= (CLOCAL | CREAD);
     term->c_cflag &= ~CSIZE;
@@ -21,30 +21,29 @@ int iot_sp_termios_init(struct termios *term)
     cfsetospeed(term, B115200);
     term->c_cc[VTIME]  = 0;
     term->c_cc[VMIN]   = 0;
-
-    return 0;
+    return SP_OK;
 }
 
-int iot_sp_init(struct sp_port *port, char *path)
+enum sp_return iot_sp_init(struct sp_port *port, char *path)
 {
     strcpy(port->path, path);
     port->mode = SP_MODE_READ_WRITE;
     iot_sp_termios_init(&port->term);
-    return EXIT_SUCCESS;
+    return SP_OK;
 }
 
-int iot_sp_open(struct sp_port *port)
+enum sp_return iot_sp_open(struct sp_port *port)
 {
 
     int flags = (O_NONBLOCK | O_NOCTTY | port->mode);
     port->fd = open(port->path, flags);
-    if (port->fd == EXIT_FAILURE_EXTRA) {
-        return EXIT_FAILURE;
+    if (port->fd == SP_ERROR_FAIL) {
+        return SP_ERROR_FAIL;
     }
     if ((tcsetattr(port->fd, TCSANOW, &port->term)) != EXIT_SUCCESS) {
-        return EXIT_FAILURE;
+        return SP_ERROR_FAIL;
     }
-    return EXIT_SUCCESS;
+    return SP_OK;
 }
 
 int iot_sp_read(struct sp_port *port, unsigned char *buff, size_t len)
@@ -61,7 +60,7 @@ int iot_sp_write(struct sp_port *port, unsigned char *buff, size_t len)
     return (int)nwrite;
 }
 
-int iot_sp_close(char *path)
+enum sp_return iot_sp_close(struct sp_port *port)
 {
-    return EXIT_SUCCESS;
+    return close(port->fd);
 }
