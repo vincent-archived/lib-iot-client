@@ -48,16 +48,12 @@ enum sp_return iot_sp_open(struct sp_port *port)
 
 int iot_sp_read(struct sp_port *port, unsigned char *buff, size_t len)
 {
-    ssize_t nread;
-    nread = (size_t) read(port->fd, buff, len);
-    return (int)nread;
+    return (int)read(port->fd, buff, len);
 }
 
 int iot_sp_write(struct sp_port *port, unsigned char *buff, size_t len)
 {
-    ssize_t nwrite;
-    nwrite = (size_t) write(port->fd, buff, len);
-    return (int)nwrite;
+    return (int)write(port->fd, buff, len);
 }
 
 enum sp_return iot_sp_close(struct sp_port *port)
