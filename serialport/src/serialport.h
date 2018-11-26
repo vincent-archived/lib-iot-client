@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) Zhang WenChao <zhangwenchao001@gmail.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 #ifndef LIB_IOT_CLIENT_SERIALPORT_H
 #define LIB_IOT_CLIENT_SERIALPORT_H
 
