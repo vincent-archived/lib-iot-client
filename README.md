@@ -23,3 +23,7 @@ See test code
 |            | Windows     | Plan |
 | GPIO       | Linux       | Plan |
 |            | Windows     | Plan |
+
+## References
+
+[Serial Programming Guide for POSIX Operating Systems](https://www.cmrr.umn.edu/~strupp/serial.html)
